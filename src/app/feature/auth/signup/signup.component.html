@@ -1,0 +1,42 @@
+<mat-card class="login-card">
+  <h1>Login</h1>
+  <form [formGroup]="signupForm" (ngSubmit)="onSignup()" class="flex flex-col" >
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Enter your email" />
+      @if (signupForm.get('email')?.hasError('required')) {
+        <mat-error>Email is required</mat-error>
+      }
+      @if (signupForm.get('email')?.hasError('email')) {
+        <mat-error>Invalid email</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="transition: 0.5s;" [ngStyle]="{'margin-bottom':signupForm.get('password')?.hasError('pattern')?'4rem':'0rem'}" >
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="Enter your password" />
+      @if(signupForm.get('password')?.hasError('required')){
+        <mat-error>Password is required</mat-error>
+      }
+      @if(signupForm.get('password')?.hasError('pattern')){
+        <mat-error>
+          Password must contain at least one number, one uppercase and a
+          lowercase letter and at least 8 characters<br />Password cannot
+          contain whitespace
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="confirmPassword" type="password" placeholder="re Enter your password" />
+      @if(signupForm.get('confirmPassword')?.hasError('required')){
+        <mat-error>confirm Password is required</mat-error>
+      }
+    </mat-form-field>
+    @if(check()){
+      <mat-error>passwords does not match</mat-error>
+    }
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid || signupForm.get('confirmPassword')?.value !== signupForm.get('password')?.value">Create An Acoount</button>
+  </form>
+</mat-card>
